@@ -55,19 +55,20 @@ public class Case03 {
 		WebElement password = webDriver.findElement(By.id("password"));
 		WebElement loginButton = webDriver.findElement(By.cssSelector("input.btn-primary"));
 
-		String title = "ログイン | LMS";
+		String title = "コース詳細 | LMS";
 
 		userId.clear();
+
 		password.clear();
 
 		userId.sendKeys("StudentAA02");
-		password.sendKeys("自分で設定したパスワード");
+		password.sendKeys("Asdfg12345");
 
 		loginButton.click();
 
+		assertEquals(title, webDriver.getTitle());
+
 		getEvidence(new Object() {
 		});
-
-		assertEquals(title, webDriver.getTitle());
 	}
 }
