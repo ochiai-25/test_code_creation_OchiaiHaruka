@@ -75,8 +75,6 @@ public class Case05 {
 	@Order(3)
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
-		getEvidence(new Object() {
-		});
 
 		WebElement menuLink = webDriver.findElement(By.cssSelector("a.dropdown-toggle"));
 
