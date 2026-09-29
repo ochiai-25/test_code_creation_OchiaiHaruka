@@ -3,8 +3,6 @@ package jp.co.sss.lms.ct.f02_faq;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -124,22 +122,32 @@ public class Case06 {
 	@Order(5)
 	@DisplayName("テスト05 カテゴリ検索で該当カテゴリの検索結果だけ表示")
 	void test05() {
-		/** カテゴリを選択*/
-		List<WebElement> categoryLinks = webDriver
-				.findElements(By.cssSelector("fieldset a[href*='frequentlyAskedQuestionCategoryId']"));
 
-		/**カテゴリが表示されていることを確認*/
-		assertFalse(categoryLinks.isEmpty());
+		// 「人材開発支援助成金」カテゴリをクリック
+		webDriver.findElement(
+				By.xpath("//a[contains(.,'人材開発支援助成金')]")).click();
 
-		/**最初のカテゴリをチェック*/
-		categoryLinks.get(0).click();
+		// 検索結果の表示を待機
+		visibilityTimeout(
+				By.cssSelector("table.sortabletable"), 5);
 
-		/**検索結果のテーブルが表示されるまで最大５秒待つ*/
-		visibilityTimeout(By.cssSelector("table.sortabletable"), 5);
+		// 検索結果が表示されていることを確認
+		assertTrue(webDriver.findElement(
+				By.cssSelector("table.sortabletable")).isDisplayed());
 
-		/**検索結果が表示されていることを確認*/
-		assertTrue(webDriver.findElement(By.cssSelector("table.sortabletable")).isDisplayed());
+		// 「人材開発支援助成金」の質問が表示されていることを確認
+		WebElement question = webDriver.findElement(
+				By.xpath("//*[contains(text(),'人材開発支援助成金')]"));
 
+		// 質問が見える位置までスクロール
+		((JavascriptExecutor) webDriver).executeScript(
+				"arguments[0].scrollIntoView({block: 'center'});",
+				question);
+
+		// 正しい質問が表示されていることを確認
+		assertTrue(question.isDisplayed());
+
+		// エビデンスを保存
 		getEvidence(new Object() {
 		});
 	}
